@@ -9,14 +9,17 @@ namespace Gradius
     class Player
     {
     public:
-        Player(sf::RenderWindow *window, int SCREEN_H, int SCREEN_W);
+        Player(sf::RenderWindow *window, int SCREEN_H, int SCREEN_W, sf::Vector2f *enemyPosition);
         ~Player(){}
         void Draw();
         void Update(float deltaTime, sf::Vector2f dir);
         void Fire();
+		int getPlayerScore();
+		bool didPlayerHitEnemy();
+		void resetPlayerHitEnemy();
 
     private:
-        int life;
+        int playerScore;
         float mouvementSpeed;
         sf::RenderWindow *window;
         sf::Vector2f position;
@@ -24,7 +27,10 @@ namespace Gradius
         sf::Texture playerTexture;
         sf::Sprite playerSprite;
         ProjectileManager *projectileManager;
-
+		sf::Clock playerClock;
+		float playerAttackCoolDown;
+		sf::Vector2f *enemyPosition;
+		bool playerHitEnemy;
     };
 }
 

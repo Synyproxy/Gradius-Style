@@ -19,7 +19,11 @@ Enemy::Enemy(sf::RenderWindow *window, int SCREEN_H, int SCREEN_W)
     enemySprite.setPosition(this->screenLimit.x + 100 , 400 );
     enemySprite.scale(sf::Vector2f(1.3f,1.3f));
     enemySprite.setColor(sf::Color(249, 238, 14));
-    enemySprite.rotate(90);
+
+	float xCenter = (enemySprite.getLocalBounds().width - enemySprite.getLocalBounds().left) / 2;
+	float yCenter = (enemySprite.getLocalBounds().height - enemySprite.getLocalBounds().top) / 2;
+
+	this->enemySprite.setOrigin(xCenter, yCenter);
     this->position.x = enemySprite.getPosition().x;
     this->position.y = enemySprite.getPosition().y;
 
@@ -38,8 +42,6 @@ void Enemy::Update(float deltaTime)
     if(this->position.x <= 0)
     {
         Randomize();
-//        this->position.x = this->screenLimit.x + 100;
-//        this->enemySprite.setPosition(this->position.x, this->position.y);
     }
 
     float y;
@@ -80,4 +82,9 @@ void Enemy::Randomize()
     //Randomize Speed
     float speed = (float)(rand()%6+3) *100;
     this->mouvementSpeed = speed;
+}
+
+sf::Vector2f* Enemy::getEnemyPosition()
+{
+	return &this->position;
 }

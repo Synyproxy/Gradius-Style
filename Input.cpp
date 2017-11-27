@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Input.h"
 
 using namespace Gradius;
@@ -13,6 +12,9 @@ Input::Input(sf::RenderWindow *window)
 void Input::EventListener()
 {
     sf::Event event;
+
+	sf::Vector2f horizontal;
+	sf::Vector2f vertical;
 
     while(this->window->pollEvent(event))
     {
@@ -30,36 +32,34 @@ void Input::EventListener()
             }
             //Movement
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            {
-                this->dir.y = -1;
-            }
+				vertical.y = -1;
+
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            {
-                this->dir.y = 1;
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            {
-                this->dir.x = 1;
-            }
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            {
-                this->dir.x = -1;
-            }
+				horizontal.y = 1;
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+				vertical.x = -1;
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+				horizontal.x = 1;
+			
 
         }
         //KeyRelease
         if(event.type == sf::Event::KeyReleased)
         {
-            if(event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Down)
-            {
-                this->dir.y = 0;
-            }
-            if(event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::Left)
-            {
-                this->dir.x = 0;
-            }
-        }
+            if(event.key.code == sf::Keyboard::Up)
+                vertical.y = 0;
 
+			if (event.key.code == sf::Keyboard::Down)
+				horizontal.y = 0;
+
+			if (event.key.code == sf::Keyboard::Left)
+				vertical.x = 0;
+			if (event.key.code == sf::Keyboard::Right)
+				horizontal.x = 0;
+        }
+		dir = vertical + horizontal;
     }
 }
 

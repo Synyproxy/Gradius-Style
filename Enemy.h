@@ -15,6 +15,7 @@ namespace Gradius
         bool isActive();
         void Activate();
         void Randomize();
+		sf::Vector2f *getEnemyPosition();
 
     private:
         bool active;

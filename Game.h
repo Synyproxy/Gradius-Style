@@ -31,6 +31,8 @@ namespace Gradius
         EnemyManager *enemyManager;
         Gamestate state;
         sf::Clock clock;
+		sf::Font font;
+		sf::Text text;
     };
 }
 

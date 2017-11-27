@@ -36,3 +36,16 @@ void EnemyManager::Update(float deltaTime)
         ++it;
     }
 }
+
+sf::Vector2f* EnemyManager::getEnemyPosition()
+{
+	return this->enemyList.front().getEnemyPosition();
+}
+
+void EnemyManager::Randomize()
+{
+	for(auto it = this->enemyList.begin(); it != this->enemyList.end(); ++it)
+	{
+		it->Randomize();
+	}
+}

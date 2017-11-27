@@ -1,10 +1,12 @@
-#include <iostream>
 #include "Player.h"
-#include "Projectile.h"
+#include <iostream>
 
 using namespace Gradius;
 
-Player::Player(sf::RenderWindow *window, int SCREEN_H, int SCREEN_W)
+Player::Player(sf::RenderWindow *window, int SCREEN_H, int SCREEN_W, sf::Vector2f *enemyPosition) :
+	playerAttackCoolDown{ 0.2f },
+	enemyPosition {enemyPosition},
+	playerHitEnemy {false}
 {
     playerTexture.loadFromFile("res/Player.png");
     playerSprite.setTexture(playerTexture);
@@ -12,23 +14,41 @@ Player::Player(sf::RenderWindow *window, int SCREEN_H, int SCREEN_W)
     this->position = sf::Vector2f(80, SCREEN_H /2);
     playerSprite.scale(sf::Vector2f(2,2));
 
-    this->life = 100;
+	this-> playerScore = 0;
     this->mouvementSpeed = 800.0f;
     this->window = window;
     this->screenLimit.x = SCREEN_W;
     this->screenLimit.y = SCREEN_H;
-    this->projectileManager = new ProjectileManager(this->window);
-
+    this->projectileManager = new ProjectileManager(this->window, enemyPosition);
+	this->playerClock.restart();
 }
 
 void Player::Draw()
 {
+	this->projectileManager->Draw();
     this->window->draw(this->playerSprite);
-    this->projectileManager->Draw();
 }
 
 void Player::Update(float deltaTime, sf::Vector2f dir)
 {
+	
+	sf::RectangleShape rect(sf::Vector2f(50, 50));
+
+	float x = (rect.getLocalBounds().width - rect.getLocalBounds().left) / 2;
+	float y = (rect.getLocalBounds().height - rect.getLocalBounds().top) / 2;
+
+	rect.setOrigin(x, y);
+	rect.setPosition((*enemyPosition).x, (*enemyPosition).y);
+
+	if (this->playerSprite.getGlobalBounds().intersects(rect.getGlobalBounds()))
+		this->playerScore = 0;
+
+	if(projectileManager->didProjectileHitEnemy())
+	{
+		this->playerHitEnemy = true;
+		this->playerScore += 10;
+		this->projectileManager->ResetHitEnemy();
+	}
     if(this->position.x <= 0)
     {
         this->playerSprite.move(1,0);
@@ -63,5 +83,24 @@ void Player::Update(float deltaTime, sf::Vector2f dir)
 
 void Player::Fire()
 {
-    this->projectileManager->Fire(sf::Vector2f(this->position.x + 50, this->position.y  + 57));
+	if (this->playerClock.getElapsedTime().asSeconds() > this->playerAttackCoolDown)
+	{
+		this->projectileManager->Fire(sf::Vector2f(this->position.x + 50, this->position.y + 57));
+		this->playerClock.restart();
+	}
+}
+
+int Player::getPlayerScore()
+{
+	return this->playerScore;
+}
+
+bool Player::didPlayerHitEnemy()
+{
+	return this->playerHitEnemy;
+}
+
+void Player::resetPlayerHitEnemy()
+{
+	this->playerHitEnemy = false;
 }

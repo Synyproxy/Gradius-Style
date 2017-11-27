@@ -14,6 +14,8 @@ namespace Gradius
         ~EnemyManager(){}
         void Draw();
         void Update(float deltaTime);
+		sf::Vector2f* getEnemyPosition();
+		void Randomize();
 
     private:
         std::list<Enemy> enemyList;

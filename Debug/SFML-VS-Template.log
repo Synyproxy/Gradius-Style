@@ -1,6 +1,2 @@
-﻿  BackGround.cpp
-d:\files\work\isart\git\enemy_sin_movement\background.cpp(11): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\files\work\isart\git\enemy_sin_movement\background.cpp(29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\files\work\isart\git\enemy_sin_movement\background.cpp(107): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-d:\files\work\isart\git\enemy_sin_movement\background.cpp(110): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  SFML-VS-Template.vcxproj -> D:\Files\Work\ISART\GIT\Enemy_Sin_Movement\Debug\Gradius.exe
+﻿  ProjectileManager.cpp
+  SFML-VS-Template.vcxproj -> D:\Files\Work\ISART\GIT\Gradius\Debug\Gradius.exe

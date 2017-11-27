@@ -14,6 +14,7 @@ namespace Gradius
         void Update(float deltaTime);
         bool isActive();
         void Activate(sf::Vector2f spawnPos);
+		sf::Sprite getProjectileSprite();
 
     private:
         bool active;

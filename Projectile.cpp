@@ -8,16 +8,24 @@ Projectile::Projectile(sf::RenderWindow *window, sf::Vector2f spawnPos)
 {
     this->window = window;
     this->mouvementSpeed = 1500.0f;
-
+	spawnPos.x += 20;
+	spawnPos.y += 20;
     this->projectileTexture.loadFromFile("res/Projectile.png");
     this->projectileSprite.setTexture(projectileTexture);
     this->projectileSprite.setPosition(spawnPos);
     this->projectileSprite.scale(sf::Vector2f(3, 3));
-    this->projectileSprite.rotate(-90);
     this->x = 0;
     this->wavePeriod = 0.5f;
     this->waveAmplitude = 15.0f;
     this->active = true;
+
+	sf::RectangleShape rect(sf::Vector2f(40, 40));
+
+	float x = (rect.getLocalBounds().width - rect.getLocalBounds().left) / 2;
+	float y = (rect.getLocalBounds().height - rect.getLocalBounds().top) / 2;
+
+	projectileSprite.setOrigin(x, y);
+
 }
 
 void Projectile::Draw()
@@ -51,8 +59,15 @@ bool Projectile::isActive()
 
 void Projectile::Activate(sf::Vector2f spawnPos)
 {
+	spawnPos.x += 20;
+	spawnPos.y += 20;
     this->projectileSprite.setPosition(spawnPos);
     this->position.x = this->projectileSprite.getPosition().x;
     this->position.y = this->projectileSprite.getPosition().y;
     this->active = true;
+}
+
+sf::Sprite Projectile::getProjectileSprite()
+{
+	return this->projectileSprite;
 }
