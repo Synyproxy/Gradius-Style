@@ -2,50 +2,36 @@
 
 using namespace Gradius;
 
-EnemyManager::EnemyManager(sf::RenderWindow *window)
+#include <cassert>
+
+EnemyManager::EnemyManager(sf::RenderWindow& window) : window(window)
 {
-    this->window = window;
-    Enemy *newEnemy = new Enemy(this->window, 1280, 720);
-    enemyList.push_back(*newEnemy);
+	enemies.emplace_back(window);
 }
 
-void EnemyManager::Draw()
+void EnemyManager::Draw() const
 {
-    if(enemyList.empty())
-        return;
-    std::list<Enemy>::iterator it = enemyList.begin();
-
-    while (it != enemyList.end())
-    {
-        if(it->isActive())
-            it->Draw();
-        ++it;
-    }
+    for (auto& enemy : enemies) {
+		enemy.Draw();
+	}
 }
 
 void EnemyManager::Update(float deltaTime)
 {
-    if(enemyList.empty())
-        return;
-    std::list<Enemy>::iterator it = enemyList.begin();
-
-    while (it != enemyList.end())
-    {
-        if(it->isActive())
-            it->Update(deltaTime);
-        ++it;
-    }
+	for (auto& enemy : enemies) {
+		enemy.Update(deltaTime);
+	}
 }
 
-sf::Vector2f* EnemyManager::getEnemyPosition()
+const sf::Vector2f& EnemyManager::getEnemyPosition() const
 {
-	return this->enemyList.front().getEnemyPosition();
+	assert(enemies.size() > 0, && "There is no enemy!!!");
+	return enemies.front().getPosition();
 }
 
 void EnemyManager::Randomize()
 {
-	for(auto it = this->enemyList.begin(); it != this->enemyList.end(); ++it)
-	{
-		it->Randomize();
+	for (auto& enemy : enemies) {
+		enemy.Randomize();
 	}
 }

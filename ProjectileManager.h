@@ -10,7 +10,7 @@ namespace Gradius
     class ProjectileManager
     {
     public:
-        ProjectileManager(sf::RenderWindow *window, sf::Vector2f *enemyPosition);
+        ProjectileManager(sf::RenderWindow& window, const sf::Vector2f& enemyPosition);
         ~ProjectileManager(){}
         void Draw();
         void Update(float deltaTime);
@@ -19,9 +19,9 @@ namespace Gradius
 		void ResetHitEnemy();
 
     private:
-        std::list<Projectile> projectileList;
-        sf::RenderWindow *window;
-		sf::Vector2f *enemyPosition;
+        std::list<Projectile> projectiles;
+        sf::RenderWindow& window;
+		const sf::Vector2f& enemyPosition;
 		bool hitEnemy;
     };
 }

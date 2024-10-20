@@ -8,14 +8,14 @@ namespace Gradius
     class Enemy
     {
     public:
-        Enemy(sf::RenderWindow *window, int SCREEN_H, int SCREEN_W);
+        Enemy(sf::RenderWindow& window);
         ~Enemy(){}
-        void Draw();
+        void Draw() const;
         void Update(float deltaTime);
         bool isActive();
         void Activate();
         void Randomize();
-		sf::Vector2f *getEnemyPosition();
+		const sf::Vector2f& getPosition() const;
 
     private:
         bool active;
@@ -23,7 +23,7 @@ namespace Gradius
         float wavePeriod;
         float waveAmplitude;
         float mouvementSpeed;
-        sf::RenderWindow * window;
+        sf::RenderWindow& window;
         sf::Vector2f position;
         sf::Vector2f screenLimit;
         sf::Texture enemyTexture;

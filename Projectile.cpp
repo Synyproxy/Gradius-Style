@@ -4,20 +4,19 @@
 
 using namespace Gradius;
 
-Projectile::Projectile(sf::RenderWindow *window, sf::Vector2f spawnPos)
+Projectile::Projectile(sf::RenderWindow& window, sf::Vector2f spawnPos) : window(window)
 {
-    this->window = window;
-    this->mouvementSpeed = 1500.0f;
+    mouvementSpeed = 1500.0f;
 	spawnPos.x += 20;
 	spawnPos.y += 20;
-    this->projectileTexture.loadFromFile("res/Projectile.png");
-    this->projectileSprite.setTexture(projectileTexture);
-    this->projectileSprite.setPosition(spawnPos);
-    this->projectileSprite.scale(sf::Vector2f(3, 3));
-    this->x = 0;
-    this->wavePeriod = 0.5f;
-    this->waveAmplitude = 15.0f;
-    this->active = true;
+    projectileTexture.loadFromFile("res/Projectile.png");
+    projectileSprite.setTexture(projectileTexture);
+    projectileSprite.setPosition(spawnPos);
+    projectileSprite.scale(sf::Vector2f(3, 3));
+    x = 0;
+    wavePeriod = 0.5f;
+    waveAmplitude = 15.0f;
+    active = true;
 
 	sf::RectangleShape rect(sf::Vector2f(40, 40));
 
@@ -28,46 +27,46 @@ Projectile::Projectile(sf::RenderWindow *window, sf::Vector2f spawnPos)
 
 }
 
-void Projectile::Draw()
+void Projectile::Draw() const
 {
-    this->window->draw(this->projectileSprite);
+    window.draw(projectileSprite);
 }
 
 void Projectile::Update(float deltaTime)
 {
-    if(this->position.x >= 1280)
+    if(position.x >= 1280)
     {
-        this->active = false;
-        this->position.x = -420;
-        this->position.y = -420;
-        this->projectileSprite.setPosition(sf::Vector2f(-420, -420));
+        active = false;
+        position.x = -420;
+        position.y = -420;
+        projectileSprite.setPosition(sf::Vector2f(-420, -420));
         return;
     }
     float y;
 
-    y = static_cast<float>((this->waveAmplitude * sin((this->x) + (this->screenLimit.y / 2) - 40)));
-    this->projectileSprite.move( this->mouvementSpeed * deltaTime, y);
-    x -= this->wavePeriod;
-    this->position.x = this->projectileSprite.getPosition().x;
-    this->position.y = this->projectileSprite.getPosition().y;
+    y = static_cast<float>((waveAmplitude * sin((x) + (screenLimit.y / 2) - 40)));
+    projectileSprite.move( mouvementSpeed * deltaTime, y);
+    x -= wavePeriod;
+    position.x = projectileSprite.getPosition().x;
+    position.y = projectileSprite.getPosition().y;
 }
 
-bool Projectile::isActive()
+bool Projectile::isActive() const
 {
-    return this->active;
+    return active;
 }
 
 void Projectile::Activate(sf::Vector2f spawnPos)
 {
 	spawnPos.x += 20;
 	spawnPos.y += 20;
-    this->projectileSprite.setPosition(spawnPos);
-    this->position.x = this->projectileSprite.getPosition().x;
-    this->position.y = this->projectileSprite.getPosition().y;
-    this->active = true;
+    projectileSprite.setPosition(spawnPos);
+    position.x = projectileSprite.getPosition().x;
+    position.y = projectileSprite.getPosition().y;
+    active = true;
 }
 
-sf::Sprite Projectile::getProjectileSprite()
+const sf::Sprite& Projectile::getProjectileSprite() const
 {
-	return this->projectileSprite;
+	return projectileSprite;
 }
