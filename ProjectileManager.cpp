@@ -3,7 +3,7 @@
 
 using namespace Gradius;
 
-ProjectileManager::ProjectileManager(sf::RenderWindow *window, sf::Vector2f *enemyPosition):
+ProjectileManager::ProjectileManager(sf::RenderWindow& window, const sf::Vector2f& enemyPosition):
 	window {window},
 	enemyPosition {enemyPosition},
 	hitEnemy {false}
@@ -12,27 +12,20 @@ ProjectileManager::ProjectileManager(sf::RenderWindow *window, sf::Vector2f *ene
 
 void ProjectileManager::Draw()
 {
-    if(projectileList.empty())
-        return;
-    std::list<Projectile>::iterator it = projectileList.begin();
-
-    while (it != projectileList.end())
-    {
-        if(it->isActive())
-            it->Draw();
-        ++it;
-    }
+	for (const auto& projectile : projectiles)
+	{
+		if (projectile.isActive())
+		{
+			projectile.Draw();
+		}
+	}
 }
 
 void ProjectileManager::Update(float deltaTime)
 {
-    if(projectileList.empty())
-        return;
-    std::list<Projectile>::iterator it = projectileList.begin();
-
-    while (it != projectileList.end())
+	for (auto& projectile : projectiles)
     {
-        if(it->isActive() && !hitEnemy)
+        if(projectile.isActive() && !hitEnemy)
         {
 			sf::RectangleShape rect(sf::Vector2f(50, 50));
 
@@ -40,44 +33,39 @@ void ProjectileManager::Update(float deltaTime)
 			float y = (rect.getLocalBounds().height - rect.getLocalBounds().top) / 2;
 
 			rect.setOrigin(x, y);
-			rect.setPosition((*enemyPosition).x, (*enemyPosition).y);
+			rect.setPosition(enemyPosition.x, enemyPosition.y);
 			rect.setFillColor(sf::Color::Red);
-			this->window->draw(rect);
-			if(it->getProjectileSprite().getGlobalBounds().intersects(rect.getGlobalBounds()))
+			window.draw(rect);
+			if (projectile.getProjectileSprite().getGlobalBounds().intersects(rect.getGlobalBounds()))
+			{
 				hitEnemy = true;
+			}
 			
-			it->Update(deltaTime);
+			projectile.Update(deltaTime);
         }
-            
-        ++it;
     }
 }
 
 void ProjectileManager::Fire(sf::Vector2f spawnPos)
 {
-	
-	std::list<Projectile>::iterator it = projectileList.begin();
+    for (auto& projectile : projectiles)
+    {
+        if (!projectile.isActive())
+        {
+            projectile.Activate(spawnPos);
+            return;
+        }
+    }
 
-	while (it != projectileList.end())
-	{
-		if (!it->isActive())
-		{
-			it->Activate(spawnPos);
-			return;
-		}
-		++it;
-	}
-	Projectile *newProjectile = new Projectile(this->window, spawnPos);
-	projectileList.push_back(*newProjectile);
-		
+    projectiles.emplace_back(window, spawnPos);
 }
 
 bool ProjectileManager::didProjectileHitEnemy()
 {
-	return this->hitEnemy;
+	return hitEnemy;
 }
 
 void ProjectileManager::ResetHitEnemy()
 {
-	this->hitEnemy = false;
+	hitEnemy = false;
 }

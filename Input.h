@@ -16,7 +16,7 @@ namespace Gradius
     class Input
     {
     public:
-        Input(sf::RenderWindow * window);
+        Input(sf::RenderWindow& window);
         ~Input(){}
         void EventListener();
         void Reset();
@@ -25,7 +25,7 @@ namespace Gradius
 
     private:
         Inputs input;
-        sf::RenderWindow *window;
+        sf::RenderWindow& window;
         sf::Vector2f dir;
     };
 }

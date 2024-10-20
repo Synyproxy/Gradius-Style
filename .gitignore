@@ -1,0 +1,9 @@
+# Visual Studio Build
+Debug/
+Release/
+
+# Visual Studio Temp Files
+.vs/
+
+# Mac OS X
+.DS_Store

@@ -1,8 +1,10 @@
 #ifndef GRADIUS_ENEMYMANAGER_H
 #define GRADIUS_ENEMYMANAGER_H
 
+#include <vector>
+
 #include <SFML/Graphics.hpp>
-#include <list>
+
 #include "Enemy.h"
 
 namespace Gradius
@@ -10,16 +12,16 @@ namespace Gradius
     class EnemyManager
     {
     public:
-        EnemyManager(sf::RenderWindow *window);
+        EnemyManager(sf::RenderWindow& window);
         ~EnemyManager(){}
-        void Draw();
+        void Draw() const;
         void Update(float deltaTime);
-		sf::Vector2f* getEnemyPosition();
+		const sf::Vector2f& getEnemyPosition() const;
 		void Randomize();
 
     private:
-        std::list<Enemy> enemyList;
-        sf::RenderWindow *window;
+        sf::RenderWindow& window;
+        std::vector<Enemy> enemies;
     };
 }
 

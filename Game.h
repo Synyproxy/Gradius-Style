@@ -15,20 +15,18 @@ namespace Gradius
     {
     public:
         Game();
-        ~Game();
+		virtual ~Game() = default;
         void Draw();
         void Update(float deltaTime);
         void Run();
         void InputListen();
-        static const int SCREEN_W;
-        static const int SCREEN_H;
 
     private:
         sf::RenderWindow window;
-        BackGround *bg;
-        Input *input;
-        Player *player;
-        EnemyManager *enemyManager;
+        BackGround bg;
+        Input input;
+        EnemyManager enemyManager;
+        Player player;
         Gamestate state;
         sf::Clock clock;
 		sf::Font font;

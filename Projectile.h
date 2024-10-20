@@ -8,13 +8,13 @@ namespace Gradius
     class Projectile
     {
     public:
-        Projectile(sf::RenderWindow *window, sf::Vector2f spawnPos);
+        Projectile(sf::RenderWindow& window, sf::Vector2f spawnPos);
         ~Projectile(){}
-        void Draw();
+        void Draw() const;
         void Update(float deltaTime);
-        bool isActive();
+        bool isActive() const;
         void Activate(sf::Vector2f spawnPos);
-		sf::Sprite getProjectileSprite();
+		const sf::Sprite& getProjectileSprite() const;
 
     private:
         bool active;
@@ -22,7 +22,7 @@ namespace Gradius
         float wavePeriod;
         float waveAmplitude;
         float mouvementSpeed;
-        sf::RenderWindow *window;
+        sf::RenderWindow& window;
         sf::Vector2f position;
         sf::Vector2f screenLimit;
         sf::Texture projectileTexture;
